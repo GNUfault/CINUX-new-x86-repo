@@ -3,8 +3,6 @@ include include.mk
 
 BOOT    := boot
 
-OBJS    := $(shell ls $(BUILD)/*.o)
-
 OUT 	:= $(BUILD)/BOOTX64.EFI
 IMG     := cinux.img
 
@@ -23,7 +21,7 @@ kernel: boot
 	$(MAKE) -C kernel
 
 link: gnu-efi kernel
-	lld-link $(LDFLAGS) /out:$(OUT) $(OBJS)
+	lld-link $(LDFLAGS) /out:$(OUT) $(shell ls $(BUILD)/*.o)
 
 disk: kernel
 	dd if=/dev/zero of=$(IMG) bs=1k count=1440
