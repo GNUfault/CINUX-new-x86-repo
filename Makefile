@@ -44,4 +44,4 @@ run:
 clean:
 	rm -rf $(BUILD) $(IMG)
 
-.PHONY: all boot disk clean
+.PHONY: all boot run clean
