@@ -11,9 +11,10 @@ MARCH    := penryn
 MTUNE    := penryn
 OPTIMIZE := 2
 GDB      := 2
+STD      := c99
 TARGET   := x86_64-w64-windows-gnu
 
-CFLAGS   := -m$(BITS) -march=$(MARCH) -mtune=$(MTUNE) -O$(OPTIMIZE) -g$(GDB) -target $(TARGET)
+CFLAGS   := -m$(BITS) -march=$(MARCH) -mtune=$(MTUNE) -O$(OPTIMIZE) -g$(GDB) -std=$(STD) -target $(TARGET)
 
 CFLAGS   += -I/usr/include/efi -I/usr/include/efi/x86_64
 CFLAGS   += -ffreestanding -fshort-wchar -mno-red-zone
