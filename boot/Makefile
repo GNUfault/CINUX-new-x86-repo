@@ -1,6 +1,6 @@
 BUILD   := ../build
 include ../include.mk
 
-OBJS := uefi_boot.o
+OBJS := boot.o
 
 all: $(OBJS)
