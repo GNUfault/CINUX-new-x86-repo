@@ -6,6 +6,7 @@ BOOT    := boot
 OBJS    := $(shell ls $(BUILD)/*.o)
 
 OUT 	:= $(BUILD)/BOOTX64.EFI
+IMG     := cinux.img
 
 all: build gnu-efi kernel link disk
 
@@ -22,11 +23,11 @@ link: gnu-efi kernel
 	lld-link $(LDFLAGS) /out:$(OUT) $(OBJS)
 
 disk: kernel
-	dd if=/dev/zero of=cinux.img bs=1k count=1440
-	mformat -i cinux.img -f 1440 ::
-	mmd -i cinux.img ::/EFI
-	mmd -i cinux.img ::/EFI/BOOT
-	mcopy -i cinux.img $(OUT) ::/EFI/BOOT
+	dd if=/dev/zero of=$(IMG) bs=1k count=1440
+	mformat -i $(IMG) -f 1440 ::
+	mmd -i $(IMG) ::/EFI
+	mmd -i $(IMG) ::/EFI/BOOT
+	mcopy -i $(IMG) $(OUT) ::/EFI/BOOT
 
 run:
 	$(SUDO) \
