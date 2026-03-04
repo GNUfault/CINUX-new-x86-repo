@@ -1,4 +1,6 @@
-BUILD   := build
+BUILD   := ../build
 include ../include.mk
 
-all:
+OBJS := main.o
+
+all: $(OBJS)

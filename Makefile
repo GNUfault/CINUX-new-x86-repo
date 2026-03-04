@@ -44,6 +44,6 @@ run:
 	-serial stdio
 
 clean:
-	rm -rf $(BUILD)
+	rm -rf $(BUILD) $(IMG)
 
 .PHONY: all boot disk clean
