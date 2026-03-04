@@ -4,6 +4,7 @@
 #include <cinux/terminal.h>
 #include <cinux/framebuffer.h>
 #include <cinux/font.h>
+#include <cinux/uptime.h>
 
 #define FONT_W      8
 #define FONT_H      16
@@ -137,7 +138,7 @@ void terminal_init(void) {
     for (uint32_t i = 0; i < total; i++) fb[i] = BG_COLOR;
 }
 
-void printk(const char *fmt, ...) {
+void vprintk(const char *fmt, ...) {
     va_list args;
     va_start(args, fmt);
 
@@ -227,5 +228,29 @@ void printk(const char *fmt, ...) {
         fmt++;
     }
 
+    va_end(args);
+}
+
+void printk(const char *fmt, ...) {
+    uint64_t us = uptime_us();
+    uint64_t secs = us / 1000000ULL;
+    uint64_t frac = us % 1000000ULL;
+
+    int digits = 1;
+    uint64_t tmp = secs;
+    while (tmp >= 10) { tmp /= 10; digits++; }
+    int spaces = 5 - digits;
+
+    put_char('[');
+    for (int i = 0; i < spaces; i++) put_char(' ');
+    print_uint(secs, 10, 0, ' ', 0);
+    put_char('.');
+    print_uint(frac, 10, 6, '0', 0);
+    put_char(']');
+    put_char(' ');
+
+    va_list args;
+    va_start(args, fmt);
+    vprintk(fmt, args);
     va_end(args);
 }

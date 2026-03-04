@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 void terminal_init(void);
+void vprintk(const char *fmt, ...);
 void printk(const char *fmt, ...);
 
 #endif
