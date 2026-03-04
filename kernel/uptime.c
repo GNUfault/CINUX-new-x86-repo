@@ -4,12 +4,11 @@
 static uint64_t tsc_boot = 0;
 static uint64_t tsc_frequency = 0;
 
-uint64_t measure_tsc_freq(void) {
+static uint64_t measure_tsc_freq(void) {
     uint64_t t0 = read_tsc();
-    pit_usleep(10000);
+    for (volatile uint64_t i = 0; i < 100000000ULL; i++);
     uint64_t t1 = read_tsc();
-    uint64_t delta = t1 - t0;
-    return delta * 100;
+    return t1 - t0;
 }
 
 void tsc_init(void) {

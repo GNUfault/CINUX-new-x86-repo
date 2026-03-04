@@ -1,6 +1,9 @@
-#ifndef UEFI_BOOT_H
-#define UEFI_BOOT_H
+#ifndef BOOT_H
+#define BOOT_H
 
-extern void kmain();
+#include <stdint.h>
+#include <cinux/framebuffer.h>
 
-#endif // UEFI_BOOT_H
+extern void kmain(framebuffer_t *fb_info);
+
+#endif // BOOT_H

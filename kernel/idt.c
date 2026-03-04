@@ -24,6 +24,11 @@ extern void isr_pit(void);
 static idt_entry_t idt[IDT_ENTRIES];
 static idt_ptr_t   idt_ptr;
 
+
+extern void isr_default(void);
+extern void isr_db(void);
+extern void isr_pit(void);
+
 static void pic_init(uint8_t offset1, uint8_t offset2) {
     uint8_t mask1 = inb(PIC1_DATA);
     uint8_t mask2 = inb(PIC2_DATA);
@@ -59,17 +64,14 @@ void idt_init(void) {
         idt_set_gate((uint8_t)i, (uint64_t)isr_default, IDT_GATE_INT);
     }
 
+    idt_set_gate(0x01, (uint64_t)isr_db,  IDT_GATE_INT);
     idt_set_gate(0x20, (uint64_t)isr_pit, IDT_GATE_INT);
 
+    cli();
     lidt_load(&idt_ptr);
-
     pic_init(0x20, 0x28);
     outb(PIC1_DATA, 0xFE);
     outb(PIC2_DATA, 0xFF);
-
-    pit_init();
-
-    sti();
 }
 
 void irq_eoi(uint8_t irq) {

@@ -2,12 +2,21 @@
 #include <cinux/pit.h>
 #include <cinux/uptime.h>
 #include <cinux/paging.h>
+#include <cinux/terminal.h>
+#include <cinux/framebuffer.h>
+#include <cinux/font.h>
+#include <cinux/asm.h>
 
-void kmain(void) {
+void kmain(framebuffer_t *fb_info) {
+
     idt_init();
-    for(;;);
     pit_init();
+    sti();
     tsc_init();
     paging_init();
-    for(;;);
+    terminal_init();
+    printk("cinux booted\n");
+
+
+    for(;;) hlt();
 }
