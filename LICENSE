@@ -1,3 +1,6 @@
+Applys to everything execpt gnu-efi/data.c, gnu-efi/lib.h and gnu-efi/LICENSE.BSD-3-Clause
+---
+
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
