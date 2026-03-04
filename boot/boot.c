@@ -1,6 +1,6 @@
 #include <efi.h>
 #include <efilib.h>
-#include "uefi_boot.h"
+#include "boot.h"
 
 EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable) {
     UINTN map_key, desc_size;
