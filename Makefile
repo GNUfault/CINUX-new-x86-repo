@@ -20,7 +20,7 @@ boot: gnu-efi
 kernel: boot
 	$(MAKE) -C kernel
 
-link: gnu-efi kernel
+link: gnu-efi boot kernel
 	lld-link $(LDFLAGS) /out:$(OUT) $(shell ls $(BUILD)/*.o)
 
 disk: kernel

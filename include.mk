@@ -16,13 +16,18 @@ TARGET   := x86_64-w64-windows-gnu
 
 CFLAGS   := -m$(BITS) -march=$(MARCH) -mtune=$(MTUNE) -O$(OPTIMIZE) -g$(GDB) -std=$(STD) -target $(TARGET)
 
-CFLAGS   += -I/usr/include/efi -I/usr/include/efi/x86_64
+CFLAGS   += -I/usr/include/efi -I/usr/include/efi/x86_64 -I../include
 CFLAGS   += -ffreestanding -fshort-wchar -mno-red-zone
 CFLAGS   += -Wall -Wextra
 
-ASFLAGS  := -f bin
+AS_OUTPUT_FORMAT := win64
+
+ASFLAGS  := -f $(AS_OUTPUT_FORMAT)
 
 LDFLAGS  := /nodefaultlib /subsystem:efi_application /entry:efi_main
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $(shell pwd)/$< -o $(BUILD)/$@
+
+%.o: %.asm
+	$(AS) $(ASFLAGS) $(shell pwd)/$< -o $(BUILD)/$@
