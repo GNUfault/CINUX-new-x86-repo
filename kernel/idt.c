@@ -6,7 +6,7 @@
 #include <cinux/idt_asm.h>
 
 #define IDT_ENTRIES  256
-#define KERNEL_CS    0x38
+#define KERNEL_CS    0x08
 #define IDT_GATE_INT 0x8E
 
 #define PIC1_CMD     0x20
@@ -22,7 +22,7 @@ extern void isr_default(void);
 extern void isr_pit(void);
 
 static idt_entry_t idt[IDT_ENTRIES];
-static idt_ptr_t   idt_ptr;
+static idt_ptr_t idt_ptr;
 
 
 extern void isr_default(void);

@@ -5,7 +5,7 @@
 
 struct gdt_entry gdt[GDT_ENTRIES];
 static struct gdt_ptr gp;
-static struct tss_entry tss;
+struct tss_entry tss;
 
 static void gdt_set(int i, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran) {
     gdt[i].base_low = base & 0xFFFF;

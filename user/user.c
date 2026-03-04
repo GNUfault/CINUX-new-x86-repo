@@ -1,3 +1,0 @@
-void umain(void) {
-    for(;;);
-}

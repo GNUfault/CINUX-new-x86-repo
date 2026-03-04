@@ -9,7 +9,8 @@
 
 void kmain(framebuffer_t *fb_info) {
     terminal_init();
-    vprintk("CINUX is running...\n");
+    vprintk("CINUX is running... Time for freedom!\n");
+    gdt_init();
     idt_init();
     pit_init();
     sti();
@@ -17,6 +18,5 @@ void kmain(framebuffer_t *fb_info) {
     
     printk("test kernel message\n");
 
-    gdt_init();
     jump_usermode();    
 }

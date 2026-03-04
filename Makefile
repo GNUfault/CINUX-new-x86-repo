@@ -56,7 +56,8 @@ debug:
 	-serial stdio \
 	-s \
 	-S \
-	-no-reboot
+	-no-reboot \
+	-no-shutdown
 
 clean:
 	rm -rf $(BUILD) $(IMG)

@@ -15,6 +15,6 @@ jump_usermode:
 	mov edx, 0x00180008
 	wrmsr
 
-	mov ecx, umain
+	lea rcx, [rel umain]
 	mov r11, 0x202
 	o64 sysret
