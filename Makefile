@@ -16,7 +16,10 @@ build:
 gnu-efi: build
 	$(MAKE) -C gnu-efi
 
-kernel: gnu-efi
+boot: gnu-efi
+	$(MAKE) -C boot
+
+kernel: boot
 	$(MAKE) -C kernel
 
 link: gnu-efi kernel
