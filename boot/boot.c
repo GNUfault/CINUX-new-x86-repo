@@ -1,8 +1,10 @@
 #include <efi.h>
 #include <efilib.h>
-#include "boot.h"
+#include <stdint.h>
+#include <cinux/framebuffer.h>
 
 extern framebuffer_t g_fb;
+extern void kmain(framebuffer_t *fb_info);
 
 static EFI_STATUS gop_init(EFI_SYSTEM_TABLE *SystemTable) {
     EFI_GUID gop_guid = EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID;
