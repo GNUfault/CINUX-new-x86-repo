@@ -1,29 +1,49 @@
-BUILD   := build
-include include.mk
+SUDO              = sudo
+CC                = clang
+AS                = nasm
+LD                = lld-link
 
-BOOT    := boot
+BITS             := 64
+MARCH            := penryn
+MTUNE            := penryn
+OPTIMIZE         := 2
+GDB              := 2
+STD              := c99
+TARGET           := x86_64-w64-windows-gnu
 
-OUT 	:= $(BUILD)/BOOTX64.EFI
-IMG     := cinux.img
+IMG              := cinux.img
 
-all: build gnu-efi kernel user link disk
+CFLAGS           := -m$(BITS) -march=$(MARCH) -mtune=$(MTUNE) -O$(OPTIMIZE) -g$(GDB) -std=$(STD) -target $(TARGET)
 
-build:
+CFLAGS           += -I/usr/include/efi -I/usr/include/efi/x86_64 -Iinclude
+CFLAGS           += -ffreestanding -fshort-wchar -mno-red-zone
+CFLAGS           += -Wall -Wextra
+
+AS_OUTPUT_FORMAT := win64
+
+ASFLAGS          := -f $(AS_OUTPUT_FORMAT)
+
+LDFLAGS          := /nodefaultlib /subsystem:efi_application /entry:efi_main
+
+BUILD            := build
+OUT 	         := $(BUILD)/BOOTX64.EFI
+
+all: setup c asm link disk
+
+setup:
 	mkdir -p $(BUILD)
 
-gnu-efi: build
-	$(MAKE) -C gnu-efi
+c: setup
+	for f in $(shell find . -name '*.c'); do \
+		$(CC) $(CFLAGS) -c $$f -o $(BUILD)/$$(basename $${f} .c).o; \
+	done
 
-boot: gnu-efi
-	$(MAKE) -C boot
+asm: setup
+	for f in $(shell find . -name '*.asm'); do \
+		$(AS) $(ASFLAGS) $$f -o $(BUILD)/$$(basename $${f} .asm).o; \
+	done
 
-kernel: boot
-	$(MAKE) -C kernel
-
-user: kernel
-	$(MAKE) -C user
-
-link: gnu-efi boot kernel user
+link: build
 	lld-link $(LDFLAGS) /out:$(OUT) $(shell ls $(BUILD)/*.o)
 
 disk: gnu-efi boot kernel user
@@ -62,4 +82,3 @@ debug:
 clean:
 	rm -rf $(BUILD) $(IMG)
 
-.PHONY: all boot user run clean
